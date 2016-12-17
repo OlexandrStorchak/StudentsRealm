@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/real_names_recycler_row_last_name"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        tools:text="last name"
+        android:textColor="#bed9f4"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/real_names_recycler_row_name"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        tools:text="name"
+        android:textColor="#bed9f4"
+        android:textStyle="bold"
+        />
+    <ImageView
+        android:id="@+id/data_base_recycler_row_git"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+
+        android:src="@mipmap/github_logo_white"
+
+         />
+    <ImageView
+        android:id="@+id/data_base_recycler_row_google"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+
+        android:src="@mipmap/google_logo"
+        />
+
+</LinearLayout>
