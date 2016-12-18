@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:minWidth="400dp"
+    tools:context="com.example.alex.studentsrealm.AddUserActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/add_new_user_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter user name"
+        />
+    <EditText
+        android:id="@+id/add_new_user_last_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter user last name"
+        />
+    <EditText
+        android:id="@+id/add_new_user_google_edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter user google+ link"
+        />
+    <EditText
+        android:id="@+id/add_new_user_git_edit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter user git link"
+        />
+    <Button
+        android:id="@+id/add_new_user_btn_commit"
+        android:text="Commit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+</LinearLayout>

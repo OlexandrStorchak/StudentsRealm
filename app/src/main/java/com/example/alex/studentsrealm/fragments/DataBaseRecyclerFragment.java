@@ -1,5 +1,6 @@
 package com.example.alex.studentsrealm.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.alex.studentsrealm.AddUserActivity;
 import com.example.alex.studentsrealm.R;
 import com.example.alex.studentsrealm.adapters.RealDataAdapter;
 import com.example.alex.studentsrealm.realmHelper.RealmInit;
@@ -27,11 +31,11 @@ import io.realm.RealmResults;
 
 public class DataBaseRecyclerFragment extends Fragment {
     private static final String TAG = "log";
+    private static final int REQUEST_CODE_ADD_NEW_USER = 12;
     RecyclerView recyclerView;
     RealDataAdapter adapter;
     RealmInit realmInit=null;
     RealmResults<StudentRealmObj> studentsList = null;
-
 
 
     @Override
@@ -39,26 +43,21 @@ public class DataBaseRecyclerFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
+
         return inflater.inflate(R.layout.data_base_recycler_view, null);
     }
-
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu,menu);
-
-
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-
-
                 Log.d(TAG, "onQueryTextSubmit: ");
                 return false;
             }
@@ -81,7 +80,6 @@ public class DataBaseRecyclerFragment extends Fragment {
                     recyclerView.invalidate();
 
                 }
-                
 
                 return false;
             }
@@ -91,12 +89,40 @@ public class DataBaseRecyclerFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add :
+                Toast.makeText(getContext(),"Add new user",Toast.LENGTH_SHORT).show();
+                Intent addNewUser = new Intent(getContext(), AddUserActivity.class);
+                startActivityForResult(addNewUser,REQUEST_CODE_ADD_NEW_USER);
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_ADD_NEW_USER:
+
+                String nameToAdd = data.getExtras().get("addName").toString();
+                String lastNameToAdd = data.getExtras().get("addLastName").toString();
+                String googleToAdd = data.getExtras().get("addGoogle").toString();
+                String gitToAdd = data.getExtras().get("addName").toString();
+                Log.d(TAG, "onActivityResult: "+ nameToAdd+" "+lastNameToAdd);
+
+                    realmInit.realmAddNewStudent(nameToAdd,lastNameToAdd,googleToAdd,gitToAdd);
+                    realmInit.updater();
+                recyclerView.setAdapter(adapter);
+                break;
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
-
 
         realmInit = new RealmInit(getContext()); // get new Realm class
         realmInit.realmInit(); // get Realm Init and Realm Config
@@ -128,4 +154,5 @@ public class DataBaseRecyclerFragment extends Fragment {
         realmInit.closeAllRealm();
         realmInit=null;
     }
+
 }

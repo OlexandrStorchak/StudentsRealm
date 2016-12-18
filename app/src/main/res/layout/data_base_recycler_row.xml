@@ -48,5 +48,15 @@
 
         android:src="@mipmap/google_logo"
         />
+    <ImageView
+        android:id="@+id/data_base_recycler_row_delete"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:visibility="gone"
+        android:src="@mipmap/ic_delete"
+        />
 
 </LinearLayout>
