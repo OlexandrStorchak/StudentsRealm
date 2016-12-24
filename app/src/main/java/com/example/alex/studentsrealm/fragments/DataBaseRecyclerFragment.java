@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.example.alex.studentsrealm.AddUserActivity;
 import com.example.alex.studentsrealm.R;
 import com.example.alex.studentsrealm.adapters.RealDataAdapter;
-import com.example.alex.studentsrealm.realmHelper.RealmInit;
+import com.example.alex.studentsrealm.realmHelper.RealmHelper;
 import com.example.alex.studentsrealm.realmHelper.models.StudentRealmObj;
 
 import io.realm.RealmResults;
@@ -33,9 +33,8 @@ public class DataBaseRecyclerFragment extends Fragment {
     private static final String TAG = "log";
     private static final int REQUEST_CODE_ADD_NEW_USER = 12;
     RecyclerView recyclerView;
-    RealDataAdapter adapter;
-    RealmInit realmInit=null;
-    RealmResults<StudentRealmObj> studentsList = null;
+    RealmHelper realmHelper = new RealmHelper();
+    RealDataAdapter adapter = new RealDataAdapter(null,realmHelper);
 
 
     @Override
@@ -58,7 +57,8 @@ public class DataBaseRecyclerFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "onQueryTextSubmit: ");
+
+                adapter.setData(realmHelper.realmGetSearchStudents(query));
                 return false;
             }
 
@@ -66,18 +66,11 @@ public class DataBaseRecyclerFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
 
                 if (searchView.getQuery().length()>0) {
-                    RealmResults<StudentRealmObj> studentsListSearch = realmInit
-                            .realmGetSearchStudents(searchView.getQuery().toString().toLowerCase());
+                    adapter.setData(realmHelper.realmGetSearchStudents(newText));
 
-                    Log.d(TAG, "onQueryTextChange: " + searchView.getQuery().toString());
-
-                    Log.d(TAG, "onQueryTextChange: " + studentsListSearch.size());
-                    recyclerView.setAdapter(new RealDataAdapter(studentsListSearch));
-                    recyclerView.invalidate();
                 } else if (searchView.getQuery().length()==0){
 
-                    recyclerView.setAdapter(new RealDataAdapter(studentsList));
-                    recyclerView.invalidate();
+                    adapter.setData(realmHelper.realmGetAllStudents());
 
                 }
 
@@ -113,9 +106,9 @@ public class DataBaseRecyclerFragment extends Fragment {
                 String gitToAdd = data.getExtras().get("addName").toString();
                 Log.d(TAG, "onActivityResult: "+ nameToAdd+" "+lastNameToAdd);
 
-                    realmInit.realmAddNewStudent(nameToAdd,lastNameToAdd,googleToAdd,gitToAdd);
-                    realmInit.updater();
-                recyclerView.setAdapter(adapter);
+                    realmHelper.realmAddNewStudent(nameToAdd,lastNameToAdd,googleToAdd,gitToAdd);
+                adapter.setData(realmHelper.realmGetAllStudents());
+
                 break;
         }
     }
@@ -124,35 +117,22 @@ public class DataBaseRecyclerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        realmInit = new RealmInit(getContext()); // get new Realm class
-        realmInit.realmInit(); // get Realm Init and Realm Config
-
-        // check for Realm database is empty
-        if (realmInit.isStudentsEmpty()){
-            realmInit.realmFirstSet(); // if database empty, run firstSet for insert default values
-            Log.d(TAG, "onViewCreated: is Students empty TRUE -> FirstSet");
-        } else {
-            Log.d(TAG, "onViewCreated: is StudentsEmpty false -> next");
-        }
-
-        studentsList = realmInit.realmGetAllStudents(); // List of Realm Results for RV adapter
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView = (RecyclerView) view.findViewById(R.id.data_base_recycler_view_id);
-        adapter = new RealDataAdapter(studentsList);
+
+        realmHelper.realmFirstSet();
         recyclerView.setLayoutManager(layoutManager);
+        adapter.setData(realmHelper.realmGetAllStudents());
         recyclerView.setAdapter(adapter);
 
 
-
     }
+
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realmInit.closeAllRealm();
-        realmInit=null;
+    public void onDetach() {
+        super.onDetach();
+        realmHelper.closeAllRealm();
+        realmHelper =null;
     }
-
 }
