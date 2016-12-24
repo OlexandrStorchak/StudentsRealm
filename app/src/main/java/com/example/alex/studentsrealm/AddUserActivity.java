@@ -16,6 +16,7 @@ public class AddUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_user);
         final EditText name, lastName, google, git;
         Button btnCommit;
+        setResult(RESULT_CANCELED);
 
         name = (EditText) findViewById(R.id.add_new_user_name_edit);
         lastName = (EditText) findViewById(R.id.add_new_user_last_name_edit);
