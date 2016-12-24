@@ -59,8 +59,12 @@ public class RealDataAdapter extends RecyclerView.Adapter<RealDataAdapter.RealHo
 
         if (vis){
             holder.delete.setVisibility(View.VISIBLE);
+            holder.google.setVisibility(View.GONE);
+            holder.git.setVisibility(View.GONE);
         } else {
             holder.delete.setVisibility(View.GONE);
+            holder.google.setVisibility(View.VISIBLE);
+            holder.git.setVisibility(View.VISIBLE);
         }
 
 
@@ -91,6 +95,8 @@ public class RealDataAdapter extends RecyclerView.Adapter<RealDataAdapter.RealHo
             name = (TextView) itemView.findViewById(R.id.real_names_recycler_row_name);
             lastName = (TextView) itemView.findViewById(R.id.real_names_recycler_row_last_name);
             delete = (ImageView) itemView.findViewById(R.id.data_base_recycler_row_delete);
+            google = (ImageView) itemView.findViewById(R.id.data_base_recycler_row_google);
+            git = (ImageView) itemView.findViewById(R.id.data_base_recycler_row_git);
 
 
         }
