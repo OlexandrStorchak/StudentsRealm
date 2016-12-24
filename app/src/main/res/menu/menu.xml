@@ -10,6 +10,10 @@
         android:title="Search"
         android:icon="@mipmap/ic_add"
         app:showAsAction="always"
-        />
+        /><item android:id="@+id/action_remove"
+    android:title="Search"
+    android:icon="@mipmap/ic_remove"
+    app:showAsAction="always"
+    />
 
 </menu>

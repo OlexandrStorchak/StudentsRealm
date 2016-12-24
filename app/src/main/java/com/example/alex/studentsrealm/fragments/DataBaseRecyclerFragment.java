@@ -89,6 +89,13 @@ public class DataBaseRecyclerFragment extends Fragment {
                 Intent addNewUser = new Intent(getContext(), AddUserActivity.class);
                 startActivityForResult(addNewUser,REQUEST_CODE_ADD_NEW_USER);
                 break;
+            case R.id.action_remove:
+                if (adapter.vis){
+                    adapter.setVisibleRemove(false);
+                } else {
+                    adapter.setVisibleRemove(true);
+                }
+                break;
 
         }
         return super.onOptionsItemSelected(item);

@@ -25,6 +25,7 @@ public class RealDataAdapter extends RecyclerView.Adapter<RealDataAdapter.RealHo
     private static final String TAG = "log";
     List<StudentRealmObj> realNamesList;
     RealmHelper realmHelper;
+    public boolean vis=false;
 
 
     public RealDataAdapter(List<StudentRealmObj> realNamesList, RealmHelper realm) {
@@ -34,6 +35,12 @@ public class RealDataAdapter extends RecyclerView.Adapter<RealDataAdapter.RealHo
     public void setData(RealmResults<StudentRealmObj> data){
         realNamesList=data;
         notifyDataSetChanged();
+    }
+    public void setVisibleRemove(Boolean visible){
+
+        vis=visible;
+        notifyDataSetChanged();
+
     }
 
     @Override
@@ -49,15 +56,12 @@ public class RealDataAdapter extends RecyclerView.Adapter<RealDataAdapter.RealHo
         holder.name.setText(realNamesList.get(position).getName());
 
         holder.lastName.setText(realNamesList.get(position).getLastName());
-        holder.name.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                holder.delete.setVisibility(View.VISIBLE);
 
-                Log.d(TAG, "onLongClick: "+position+" "+holder.getAdapterPosition());
-                return false;
-            }
-        });
+        if (vis){
+            holder.delete.setVisibility(View.VISIBLE);
+        } else {
+            holder.delete.setVisibility(View.GONE);
+        }
 
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
